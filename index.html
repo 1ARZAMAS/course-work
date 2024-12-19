@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Главная</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            transition: margin-left .5s ease; /* Добавляем плавный переход для сдвига контента */
+        }
+        header {
+            background-color: #333;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+            margin-left: 50px; /* Отступ для меню */
+        }
+        /* Боковая панель (меню) */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -240px; /* Начальная позиция за экраном */
+            width: 240px;
+            background: #ffffff;
+            height: 100%;
+            box-shadow: 5px 0 30px rgba(0, 0, 0, .1);
+            transition: all .5s ease;
+            z-index: 1000; /* Боковая панель будет на переднем плане */
+        }
+        /* Когда меню активно, оно перемещается на экран */
+        .sidebar.active {
+            left: 0; /* Перемещаем меню на экран */
+        }
+        .sidebar .logo_content .logo {
+            display: flex;
+            color: #0b2997;
+            height: 50px;
+            width: 100%;
+            font-size: 30px;
+            margin-left: 5px;
+            align-items: center;
+            pointer-events: none;
+            opacity: 0;
+            transition: 1.5s ease;
+        }
+        .sidebar.active .logo_content .logo {
+            opacity: 1;
+        }
+        .sidebar .logo_content .logo .logo_name {
+            font-size: 23px;
+            font-weight: 600;
+            margin: 0 10px;
+        }
+        /* Кнопка для открытия бокового меню */
+        .menu-toggle {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 30px;
+            color: #333;
+            cursor: pointer;
+            z-index: 1001; /* Кнопка всегда поверх контента */
+        }
+        /* Стили для ссылок в меню */
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+        .sidebar ul li {
+            margin: 20px 0;
+        }
+        .sidebar ul li a {
+            color: #333;
+            text-decoration: none;
+            font-size: 18px;
+            display: block;
+            padding: 10px;
+            transition: background 0.3s ease;
+        }
+        .sidebar ul li a:hover {
+            background-color: #f0f0f0;
+        }
+        /* Основной контент */
+        .content {
+            padding: 20px;
+            transition: margin-left .5s ease; /* Плавный сдвиг контента */
+        }
+        /* Секции контента */
+        section {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Кнопка для открытия меню -->
+    <div class="menu-toggle">☰</div>
+
+    <!-- Боковая панель (меню) -->
+    <div class="sidebar">
+        <div class="logo_content">
+            <div class="logo">
+                <span class="logo_name">Меню</span>
+            </div>
+        </div>
+        <!-- Ссылки в меню -->
+        <ul>
+            <li><a href="#home">На главную</a></li>
+            <li><a href="#about">О нас</a></li>
+            <li><a href="#contact">Обратная связь</a></li>
+        </ul>
+    </div>
+
+    <!-- Основной контент -->
+    <div class="content">
+        <header>
+            <h1>Главная страница</h1>
+        </header>
+
+        <!-- Секции на странице -->
+        <section id="home">
+            <h2>На главной</h2>
+            <p>Контент на главной странице...</p>
+        </section>
+        <section id="about">
+            <h2>О нас</h2>
+            <p>Информация о нас...</p>
+        </section>
+        <section id="contact">
+            <h2>Обратная связь</h2>
+            <p>Контактная информация...</p>
+        </section>
+    </div>
+
+    <script>
+        // Получаем элементы
+        const menuToggle = document.querySelector('.menu-toggle');
+        const sidebar = document.querySelector('.sidebar');
+        const body = document.body;
+
+        // Обработчик события для кнопки меню
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active'); // Переключаем класс active
+            body.classList.toggle('active'); // Добавляем/удаляем класс для сдвига контента
+        });
+    </script>
+</body>
+</html>
