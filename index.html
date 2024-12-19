@@ -12,10 +12,12 @@
             padding: 0;
             background-color: #f4f4f4;
             transition: margin-left .5s ease;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; /* Обеспечивает, что контент будет занимать минимум всю высоту экрана */
         }
         header {
-            background-color: #333;
-            color: white;
+            color: royalblue;
             padding: 10px 0;
             text-align: center;
             margin-left: 50px;
@@ -86,9 +88,10 @@
         .content {
             padding: 20px;
             transition: margin-left .5s ease;
+            flex-grow: 1; /* Это позволяет контенту расширяться и занимать пространство */
         }
         section {
-            margin-bottom: 500px;
+            margin-bottom: 250px;
             padding: 25px;
             background-color: #fff;
             border-radius: 8px;
@@ -105,11 +108,13 @@
 
         /* Стили для кнопок Вход и Регистрация с анимацией */
         .auth-buttons {
-            position: absolute;
+            position: fixed;
             top: 20px;
             right: 20px;
             display: flex;
+            flex-wrap: wrap; /* Позволяет кнопкам переходить на новую строку */
             gap: 10px;
+            max-width: 500px; /* Ограничение ширины */
         }
 
         .auth-btn {
@@ -128,6 +133,8 @@
             font-weight: 500;
             border-radius: 30px; /* Закругленные углы */
             border-bottom: 2px solid royalblue; /* Обводка снизу */
+            min-width: 120px; /* Минимальная ширина кнопки */
+            text-align: center;
         }
 
         .auth-btn span {
@@ -168,6 +175,30 @@
         .auth-btn:active span::before {
             background: #2751cd;
         }
+
+        /* Медиазапросы для мобильных устройств */
+        @media (max-width: 600px) {
+            .auth-buttons {
+                right: 10px;
+                top: 10px;
+                flex-direction: column; /* Кнопки будут располагаться в столбик */
+                gap: 5px;
+            }
+
+            .auth-btn {
+                width: 100%; /* Кнопки будут растягиваться на всю ширину */
+            }
+        }
+
+        /* Стили для футера */
+        footer {
+            background-color: royalblue;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            width: 100%;
+            font-size: 16px;
+        }
     </style>
 </head>
 <body>
@@ -192,7 +223,7 @@
 
     <div class="content">
         <header>
-            <h1>нанананана</h1>
+            <h1>Главная страница</h1>
         </header>
 
         <section id="home">
@@ -208,6 +239,11 @@
             <p>Анекдот 3: Программисты не устают от работы, они устают от пользователей.</p>
         </section>
     </div>
+
+    <!-- Футер, который будет внизу страницы -->
+    <footer>
+        2024г. Курсовая работа
+    </footer>
 
     <script>
         const menuToggle = document.querySelector('.menu-toggle');
