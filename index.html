@@ -11,30 +11,28 @@
             margin: 0;
             padding: 0;
             background-color: #f4f4f4;
-            transition: margin-left .5s ease; /* Плавный переход для сдвига контента */
+            transition: margin-left .5s ease;
         }
         header {
             background-color: #333;
             color: white;
             padding: 10px 0;
             text-align: center;
-            margin-left: 50px; /* Отступ для меню */
+            margin-left: 50px;
         }
-        /* Боковая панель (меню) */
         .sidebar {
             position: fixed;
             top: 0;
-            left: -240px; /* Начальная позиция за экраном */
+            left: -240px;
             width: 240px;
             background: #ffffff;
             height: 100%;
             box-shadow: 5px 0 30px rgba(0, 0, 0, .1);
             transition: all .5s ease;
-            z-index: 1000; /* Боковая панель будет на переднем плане */
+            z-index: 1000;
         }
-        /* Когда меню активно, оно перемещается на экран */
         .sidebar.active {
-            left: 0; /* Перемещаем меню на экран */
+            left: 0;
         }
         .sidebar .logo_content .logo {
             display: flex;
@@ -56,19 +54,17 @@
             font-weight: 600;
             margin: 0 10px;
         }
-        /* Кнопка для открытия бокового меню */
         .menu-toggle {
-            position: fixed; /* Изменили на fixed */
+            position: fixed;
             top: 20px;
             left: 20px;
             font-size: 30px;
             color: #333;
             cursor: pointer;
-            z-index: 1001; /* Кнопка всегда поверх контента */
-            opacity: 1; /* Изначально кнопка видима */
+            z-index: 1001;
+            opacity: 1;
             transition: opacity .3s ease, transform .3s ease;
         }
-        /* Стили для ссылок в меню */
         .sidebar ul {
             list-style: none;
             padding: 0;
@@ -87,32 +83,27 @@
         .sidebar ul li a:hover {
             background-color: #f0f0f0;
         }
-        /* Основной контент */
         .content {
             padding: 20px;
-            transition: margin-left .5s ease; /* Плавный сдвиг контента */
+            transition: margin-left .5s ease;
         }
-        /* Секции контента */
         section {
-            margin-bottom: 500px; /* Увеличили отступ сверху */
-            padding: 25px; /* Увеличили внутренние отступы */
+            margin-bottom: 500px;
+            padding: 25px;
             background-color: #fff;
             border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Увеличили тень для лучшего эффекта */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
-
-        /* Для скрытия кнопки бургера при открытом меню */
         .menu-toggle.hide {
-            opacity: 0; /* Кнопка исчезает */
-            pointer-events: none; /* Отключаем взаимодействие с кнопкой */
+            opacity: 0;
+            pointer-events: none;
+        }
+        .menu-toggle.show {
+            opacity: 1;
+            transition: opacity 0.2s ease 0.2s;
         }
 
-        /* Плавное появление кнопки, когда меню скрыто */
-        .menu-toggle.show {
-            opacity: 1; /* Кнопка снова становится видимой */
-            transition: opacity 0.2s ease 0.2s; /* Добавляем задержку для появления */
-        }
-        /* Кнопки Вход и Регистрация */
+        /* Стили для кнопок Вход и Регистрация с анимацией */
         .auth-buttons {
             position: absolute;
             top: 20px;
@@ -122,40 +113,76 @@
         }
 
         .auth-btn {
-            padding: 10px 20px;
-            font-size: 16px;
-            background-color: #333;
-            color: white;
             border: none;
-            border-radius: 5px;
+            display: block;
+            position: relative;
+            padding: 0.7em 2.4em;
+            font-size: 18px;
+            background: transparent;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            user-select: none;
+            overflow: hidden;
+            color: royalblue;
+            z-index: 1;
+            font-family: inherit;
+            font-weight: 500;
+            border-radius: 30px; /* Закругленные углы */
+            border-bottom: 2px solid royalblue; /* Обводка снизу */
+        }
+
+        .auth-btn span {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            z-index: -1;
+            border: 4px solid royalblue;
+            border-radius: 30px; /* Закругленные углы для спана */
+        }
+
+        .auth-btn span::before {
+            content: "";
+            display: block;
+            position: absolute;
+            width: 8%;
+            height: 500%;
+            background: var(--lightgray);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-60deg);
+            transition: all 0.3s;
+        }
+
+        .auth-btn:hover span::before {
+            transform: translate(-50%, -50%) rotate(-90deg);
+            width: 100%;
+            background: royalblue;
         }
 
         .auth-btn:hover {
-            background-color: #555;
+            color: white;
         }
 
+        .auth-btn:active span::before {
+            background: #2751cd;
+        }
     </style>
 </head>
 <body>
-    <!-- Кнопка для открытия меню -->
     <div class="menu-toggle">☰</div>
-
-    <!-- Кнопки Вход и Регистрация -->
     <div class="auth-buttons">
-        <button class="auth-btn" onclick="window.location.href='login.html'">Вход</button>
-        <button class="auth-btn" onclick="window.location.href='register.html'">Регистрация</button>
+        <button class="auth-btn" onclick="window.location.href='login.html'"><span></span>Вход</button>
+        <button class="auth-btn" onclick="window.location.href='register.html'"><span></span>Регистрация</button>
     </div>
 
-    <!-- Боковая панель (меню) -->
     <div class="sidebar">
         <div class="logo_content">
             <div class="logo">
                 <span class="logo_name">Меню</span>
             </div>
         </div>
-        <!-- Ссылки в меню -->
         <ul>
             <li><a href="#home" class="sidebar-link">На главную</a></li>
             <li><a href="#about" class="sidebar-link">О нас</a></li>
@@ -163,61 +190,54 @@
         </ul>
     </div>
 
-    <!-- Основной контент -->
     <div class="content">
         <header>
-            <h1>Главная страница</h1>
+            <h1>нанананана</h1>
         </header>
 
-        <!-- Секции на странице -->
         <section id="home">
-            <h2>На главную</h2>
-            <p>Контент на главной странице...</p>
+            <h2>Ща тут шуточки будут</h2>
+            <p>Анекдот 1: Почему программисты не любят гулять по лесу? Потому что там много багов.</p>
         </section>
         <section id="about">
-            <h2>О нас</h2>
-            <p>Информация о нас...</p>
+            <h2>Потому что могу</h2>
+            <p>Анекдот 2: Сколько программистов нужно, чтобы заменить лампочку? Ни одного, это аппаратная проблема.</p>
         </section>
         <section id="contact">
-            <h2>Обратная связь</h2>
-            <p>Контактная информация...</p>
+            <h2>я ща ебнусь</h2>
+            <p>Анекдот 3: Программисты не устают от работы, они устают от пользователей.</p>
         </section>
     </div>
 
     <script>
-        // Получаем элементы
         const menuToggle = document.querySelector('.menu-toggle');
         const sidebar = document.querySelector('.sidebar');
         const body = document.body;
-        const sidebarLinks = document.querySelectorAll('.sidebar-link'); // Ссылки в меню
+        const sidebarLinks = document.querySelectorAll('.sidebar-link');
 
-        // Обработчик события для кнопки меню
         menuToggle.addEventListener('click', (event) => {
-            event.stopPropagation(); // Останавливаем всплытие события, чтобы клик по кнопке не сработал на документе
-            sidebar.classList.toggle('active'); // Переключаем класс active
-            body.classList.toggle('active'); // Добавляем/удаляем класс для сдвига контента
-            menuToggle.classList.toggle('hide'); // Прячем кнопку
-            menuToggle.classList.remove('show'); // Убираем класс show при клике на кнопку
+            event.stopPropagation();
+            sidebar.classList.toggle('active');
+            body.classList.toggle('active');
+            menuToggle.classList.toggle('hide');
+            menuToggle.classList.remove('show');
         });
 
-        // Обработчик клика по ссылке в меню
         sidebarLinks.forEach(link => {
             link.addEventListener('click', () => {
-                sidebar.classList.remove('active'); // Скрываем боковую панель
-                body.classList.remove('active'); // Возвращаем сдвиг контента обратно
-                menuToggle.classList.remove('hide'); // Показываем кнопку
-                menuToggle.classList.add('show'); // Плавно показываем кнопку с задержкой
+                sidebar.classList.remove('active');
+                body.classList.remove('active');
+                menuToggle.classList.remove('hide');
+                menuToggle.classList.add('show');
             });
         });
 
-        // Обработчик клика по документу (для скрытия меню при клике вне его)
         document.addEventListener('click', (event) => {
-            // Проверяем, что клик был не по меню и не по кнопке
             if (!sidebar.contains(event.target) && !menuToggle.contains(event.target)) {
-                sidebar.classList.remove('active'); // Скрыть меню
-                body.classList.remove('active'); // Сдвиг контента обратно
-                menuToggle.classList.remove('hide'); // Показываем кнопку
-                menuToggle.classList.add('show'); // Плавно показываем кнопку с задержкой
+                sidebar.classList.remove('active');
+                body.classList.remove('active');
+                menuToggle.classList.remove('hide');
+                menuToggle.classList.add('show');
             }
         });
     </script>
