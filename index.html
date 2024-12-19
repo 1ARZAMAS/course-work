@@ -94,11 +94,11 @@
         }
         /* Секции контента */
         section {
-            margin-top: 30px; /* Добавляем отступ сверху */
-            padding: 15px;
+            margin-bottom: 500px; /* Увеличили отступ сверху */
+            padding: 25px; /* Увеличили внутренние отступы */
             background-color: #fff;
             border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Легкая тень для секций */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Увеличили тень для лучшего эффекта */
         }
 
         /* Для скрытия кнопки бургера при открытом меню */
@@ -127,9 +127,9 @@
         </div>
         <!-- Ссылки в меню -->
         <ul>
-            <li><a href="#home">На главную</a></li>
-            <li><a href="#about">О нас</a></li>
-            <li><a href="#contact">Обратная связь</a></li>
+            <li><a href="#home" class="sidebar-link">На главную</a></li>
+            <li><a href="#about" class="sidebar-link">О нас</a></li>
+            <li><a href="#contact" class="sidebar-link">Обратная связь</a></li>
         </ul>
     </div>
 
@@ -159,6 +159,7 @@
         const menuToggle = document.querySelector('.menu-toggle');
         const sidebar = document.querySelector('.sidebar');
         const body = document.body;
+        const sidebarLinks = document.querySelectorAll('.sidebar-link'); // Ссылки в меню
 
         // Обработчик события для кнопки меню
         menuToggle.addEventListener('click', (event) => {
@@ -169,7 +170,17 @@
             menuToggle.classList.remove('show'); // Убираем класс show при клике на кнопку
         });
 
-        // Обработчик клика по документу
+        // Обработчик клика по ссылке в меню
+        sidebarLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                sidebar.classList.remove('active'); // Скрываем боковую панель
+                body.classList.remove('active'); // Возвращаем сдвиг контента обратно
+                menuToggle.classList.remove('hide'); // Показываем кнопку
+                menuToggle.classList.add('show'); // Плавно показываем кнопку с задержкой
+            });
+        });
+
+        // Обработчик клика по документу (для скрытия меню при клике вне его)
         document.addEventListener('click', (event) => {
             // Проверяем, что клик был не по меню и не по кнопке
             if (!sidebar.contains(event.target) && !menuToggle.contains(event.target)) {
