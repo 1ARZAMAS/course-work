@@ -112,11 +112,41 @@
             opacity: 1; /* Кнопка снова становится видимой */
             transition: opacity 0.2s ease 0.2s; /* Добавляем задержку для появления */
         }
+        /* Кнопки Вход и Регистрация */
+        .auth-buttons {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .auth-btn {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .auth-btn:hover {
+            background-color: #555;
+        }
+
     </style>
 </head>
 <body>
     <!-- Кнопка для открытия меню -->
     <div class="menu-toggle">☰</div>
+
+    <!-- Кнопки Вход и Регистрация -->
+    <div class="auth-buttons">
+        <button class="auth-btn" onclick="window.location.href='login.html'">Вход</button>
+        <button class="auth-btn" onclick="window.location.href='register.html'">Регистрация</button>
+    </div>
 
     <!-- Боковая панель (меню) -->
     <div class="sidebar">
