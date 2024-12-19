@@ -11,7 +11,7 @@
             margin: 0;
             padding: 0;
             background-color: #f4f4f4;
-            transition: margin-left .5s ease; /* Добавляем плавный переход для сдвига контента */
+            transition: margin-left .5s ease; /* Плавный переход для сдвига контента */
         }
         header {
             background-color: #333;
@@ -65,6 +65,8 @@
             color: #333;
             cursor: pointer;
             z-index: 1001; /* Кнопка всегда поверх контента */
+            opacity: 1; /* Изначально кнопка видима */
+            transition: opacity .3s ease, transform .3s ease;
         }
         /* Стили для ссылок в меню */
         .sidebar ul {
@@ -93,6 +95,18 @@
         /* Секции контента */
         section {
             margin-top: 20px;
+        }
+
+        /* Для скрытия кнопки бургера при открытом меню */
+        .menu-toggle.hide {
+            opacity: 0; /* Кнопка исчезает */
+            pointer-events: none; /* Отключаем взаимодействие с кнопкой */
+        }
+
+        /* Плавное появление кнопки, когда меню скрыто */
+        .menu-toggle.show {
+            opacity: 1; /* Кнопка снова становится видимой */
+            transition: opacity 0.2s ease 0.2s; /* Добавляем задержку для появления */
         }
     </style>
 </head>
@@ -123,7 +137,7 @@
 
         <!-- Секции на странице -->
         <section id="home">
-            <h2>На главной</h2>
+            <h2>На главную</h2>
             <p>Контент на главной странице...</p>
         </section>
         <section id="about">
@@ -143,9 +157,23 @@
         const body = document.body;
 
         // Обработчик события для кнопки меню
-        menuToggle.addEventListener('click', () => {
+        menuToggle.addEventListener('click', (event) => {
+            event.stopPropagation(); // Останавливаем всплытие события, чтобы клик по кнопке не сработал на документе
             sidebar.classList.toggle('active'); // Переключаем класс active
             body.classList.toggle('active'); // Добавляем/удаляем класс для сдвига контента
+            menuToggle.classList.toggle('hide'); // Прячем кнопку
+            menuToggle.classList.remove('show'); // Убираем класс show при клике на кнопку
+        });
+
+        // Обработчик клика по документу
+        document.addEventListener('click', (event) => {
+            // Проверяем, что клик был не по меню и не по кнопке
+            if (!sidebar.contains(event.target) && !menuToggle.contains(event.target)) {
+                sidebar.classList.remove('active'); // Скрыть меню
+                body.classList.remove('active'); // Сдвиг контента обратно
+                menuToggle.classList.remove('hide'); // Показываем кнопку
+                menuToggle.classList.add('show'); // Плавно показываем кнопку с задержкой
+            }
         });
     </script>
 </body>
