@@ -41,12 +41,12 @@ public class WebSecurityConfig {
             // Updated method to configure authorization
             .authorizeHttpRequests(authz -> authz
                 .requestMatchers("/index.html", "/resources/**", "/").permitAll()  // Permit access to index and public resources
-                .requestMatchers("/login", "/register").not().fullyAuthenticated()  // Allow unauthenticated users to access login and register
+                .requestMatchers("/login.html", "/register.html").not().fullyAuthenticated()  // Allow unauthenticated users to access login and register
                 .anyRequest().authenticated()  // Require authentication for all other requests
             )
             .formLogin(form -> form
                 .loginPage("/login")                  // Custom login page
-                .defaultSuccessUrl("/index", true)    // Redirect to index after login
+                .defaultSuccessUrl("/home_page", true)    // Redirect to index after login
                 .permitAll()                          // Allow anyone to access the login page
             )
             .logout(logout -> logout

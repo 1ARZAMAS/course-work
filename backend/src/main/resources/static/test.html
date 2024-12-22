@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Профиль</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            color: royalblue;
+            padding: 10px 0;
+            text-align: center;
+            margin-left: 50px;
+        }
+
+        .content {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;  /* Выравнивание по верхнему краю */
+            flex-grow: 1;
+            height: calc(100vh - 60px);  /* Высота контента с учетом шапки */
+            box-sizing: border-box;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .tabs button {
+            padding: 10px 20px;
+            font-size: 18px;
+            background: royalblue;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .tabs button:hover {
+            background-color: #003366;
+        }
+
+        .tabs button.active {
+            background-color: #003366;
+        }
+
+        .profile-box {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-top: 20px;
+            width: 80%;
+            max-width: 600px;
+        }
+
+        /* Стили для кнопок "Мой профиль" и "Тестирование" */
+        .auth-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .auth-btn {
+            border: none;
+            display: block;
+            position: relative;
+            padding: 0.7em 2.4em;
+            font-size: 18px;
+            background: transparent;
+            cursor: pointer;
+            user-select: none;
+            overflow: hidden;
+            color: royalblue;
+            z-index: 1;
+            font-family: inherit;
+            font-weight: 500;
+            border-radius: 30px;
+            border-bottom: 2px solid royalblue;
+            min-width: 120px;
+            text-align: center;
+        }
+
+        .auth-btn span {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            z-index: -1;
+            border: 4px solid royalblue;
+            border-radius: 30px;
+        }
+
+        .auth-btn span::before {
+            content: "";
+            display: block;
+            position: absolute;
+            width: 8%;
+            height: 500%;
+            background: var(--lightgray);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-60deg);
+            transition: all 0.3s;
+        }
+
+        .auth-btn:hover span::before {
+            transform: translate(-50%, -50%) rotate(-90deg);
+            width: 100%;
+            background: royalblue;
+        }
+
+        .auth-btn:hover {
+            color: white;
+        }
+
+        .auth-btn:active span::before {
+            background: #2751cd;
+        }
+
+        .exit-btn {
+            border: none;
+            padding: 0.7em 2.4em;
+            font-size: 18px;
+            background: transparent;
+            cursor: pointer;
+            color: royalblue;
+            font-weight: 500;
+            border-radius: 30px;
+            border-bottom: 2px solid royalblue;
+        }
+
+        .exit-btn:hover {
+            background-color: #f0f0f0;
+        }
+
+/* Позиционирование кнопки выхода в правый верхний угол */
+        .exit-btn-wrapper {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 2;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Мой профиль</h1>
+    </header>
+
+    <div class="content">
+        <!-- Кнопки для переключения вкладок -->
+        <div class="tabs">
+            <button id="tab1Btn" class="active">Мой профиль</button>
+            <button id="tab2Btn">Тестирование</button>
+        </div>
+
+        <!-- Блок с личной информацией -->
+        <div id="tab1Content" class="tab-content active">
+            <div class="profile-box" id="profileBox">
+                <!-- Здесь будет отображаться информация о пользователе -->
+                <p><strong>Имя:</strong> <span id="userName">Загрузка...</span></p>
+                <p><strong>Email:</strong> <span id="userEmail">Загрузка...</span></p>
+                <h3>Пройденные тесты:</h3>
+                <ul id="userTests">
+                    <!-- Список тестов будет динамически добавляться сюда -->
+                </ul>
+            </div>
+        </div>
+
+        <!-- Блок с доступными тестами -->
+        <div id="tab2Content" class="tab-content">
+            <h2>Доступные тесты</h2>
+            <ul>
+                <li><strong>Тест по физике</strong> - Краткое описание теста...</li>
+                <li><strong>Тест по химии</strong> - Краткое описание теста...</li>
+                <li><strong>Тест по биологии</strong> - Краткое описание теста...</li>
+            </ul>
+        </div>
+
+        <!-- Кнопки "Мой профиль" и "Тестирование" -->
+        <div class="auth-buttons">
+            <button class="auth-btn" onclick="goToProfile()">Мой профиль</button>
+            <button class="auth-btn" onclick="goToTests()">Тестирование</button>
+        </div>
+
+        <!-- Блок с кнопкой выхода, закрепленной в верхнем правом углу -->
+        <div class="exit-btn-wrapper">
+            <button class="exit-btn" onclick="logout()">Выход</button>
+        </div>
+    </div>
+
+    <script>
+        // Логика переключения вкладок
+        const tab1Btn = document.getElementById('tab1Btn');
+        const tab2Btn = document.getElementById('tab2Btn');
+        const tab1Content = document.getElementById('tab1Content');
+        const tab2Content = document.getElementById('tab2Content');
+
+        tab1Btn.addEventListener('click', () => {
+            tab1Content.classList.add('active');
+            tab2Content.classList.remove('active');
+            tab1Btn.classList.add('active');
+            tab2Btn.classList.remove('active');
+        });
+
+        tab2Btn.addEventListener('click', () => {
+            tab2Content.classList.add('active');
+            tab1Content.classList.remove('active');
+            tab2Btn.classList.add('active');
+            tab1Btn.classList.remove('active');
+        });
+
+        // Логика выхода
+        function logout() {
+            window.location.href = "index.html";
+        }
+
+        // Логика перехода к профилю и тестированию
+        function goToProfile() {
+            tab1Btn.click();  // Переключаем на вкладку "Мой профиль"
+        }
+
+        function goToTests() {
+            tab2Btn.click();  // Переключаем на вкладку "Тестирование"
+        }
+
+        // Логика получения данных о пользователе с сервера
+        async function loadUserData() {
+            try {
+                const response = await fetch('/api/user'); // Замените на ваш реальный API endpoint
+                const data = await response.json();
+
+                // Заполняем информацию о пользователе
+                document.getElementById('userName').textContent = data.name;
+                document.getElementById('userEmail').textContent = data.email;
+
+                // Заполняем список пройденных тестов
+                const userTests = document.getElementById('userTests');
+                userTests.innerHTML = ''; // Очищаем перед добавлением
+                data.tests.forEach(test => {
+                    const li = document.createElement('li');
+                    li.textContent = '${test.name} - ${test.status}';
+                    userTests.appendChild(li);
+                });
+            } catch (error) {
+                console.error('Ошибка при загрузке данных о пользователе:', error);
+            }
+        }
+
+        // Загружаем данные при загрузке страницы
+        loadUserData();
+    </script>
+</body>
+</html>
