@@ -11,17 +11,16 @@
             margin: 0;
             padding: 0;
             background-color: #f4f4f4;
-            transition: margin-left .5s ease;
             display: flex;
             flex-direction: column;
-            min-height: 100vh; /* Обеспечивает, что контент будет занимать минимум всю высоту экрана */
+            align-items: center; /* Центрируем по горизонтали */
         }
 
         header {
             color: royalblue;
             padding: 10px 0;
             text-align: center;
-            margin-left: 50px;
+            /*margin-left: 50px;*/
         }
         
         section {
@@ -33,14 +32,14 @@
         }
         
         .content {
-            padding: 20px;
             display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;  /* Выравнивание по верхнему краю */
-            flex-grow: 1;
-            height: calc(100vh - 60px);  /* Высота контента с учетом шапки */
-            box-sizing: border-box;
+            flex-direction: column; /* Располагаем элементы в колонку */
+            align-items: center; /* Центрируем по горизонтали */
+            justify-content: flex-start; /* Убираем выравнивание по вертикали */
+            margin-top: 100px; /* Отступ сверху от кнопок */
+            width: 100%; /* Ширина контейнера */
+            min-height: calc(100vh - 60px); /* Чтобы занять весь экран */
+            position: relative;
         }
 
         .profile-box {
@@ -51,6 +50,9 @@
             padding: 20px;
             width: 80%;
             max-width: 600px;
+            margin-top: 150px; /* Отступ, чтобы блок был ниже кнопок */
+            position: relative; /* Сохраняем нормальный поток документа */
+            transform: translateY(-50px); /* Точная корректировка */
         }
 
         /* Стили для кнопок Вход и Регистрация с анимацией */
@@ -139,13 +141,15 @@
 
         /*кнопки профиля и тестирования*/
         .tabs-buttons {
-            position: fixed;
-            top: 200px;
-            right: 200px;
             display: flex;
-            flex-wrap: wrap; /* Позволяет кнопкам переходить на новую строку */
-            gap: 10px;
-            max-width: 500px; /* Ограничение ширины */
+            gap: 20px;
+            justify-content: center; /* Центрирование по горизонтали */
+            align-items: center; /* Центрирование по вертикали */
+            position: absolute; /* Позволяет позиционировать элемент */
+            top: 20px; /* Расстояние от верхней части страницы */
+            left: 50%; /* Смещаем контейнер на середину страницы */
+            transform: translateX(-50%); /* Центруем контейнер относительно середины */
+            width: 100%; /* Контейнер занимает всю ширину */
         }
 
         .tabs-btn {
@@ -166,6 +170,7 @@
             border-bottom: 2px solid royalblue; /* Обводка снизу */
             min-width: 120px; /* Минимальная ширина кнопки */
             text-align: center;
+            position: relative;
         }
 
         .tabs-btn span {
