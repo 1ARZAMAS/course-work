@@ -64,6 +64,7 @@
             flex-wrap: wrap; /* Позволяет кнопкам переходить на новую строку */
             gap: 10px;
             max-width: 500px; /* Ограничение ширины */
+            z-index: 1000;
         }
 
         .auth-btn {
@@ -239,12 +240,18 @@
 </head>
 <body>
     <div class="auth-buttons">
-        <button class="auth-btn" onclick="window.location.href='index.html'"><span></span>Выход</button>
+        <button class="auth-btn" onclick="window.location.href='index.html'">
+            <span></span>Выход
+        </button>
     </div>
 
     <div class="tabs-buttons">
-        <button class="tabs-btn" onclick="window.location.href='home_page.html'"><span></span>Мой профиль</button>
-        <button class="tabs-btn" onclick="window.location.href='test.html'"><span></span>Тестирование</button>
+        <button class="tabs-btn" onclick="window.location.href='home_page.html'">
+            <span></span>Мой профиль
+        </button>
+        <button class="tabs-btn" onclick="window.location.href='test.html'">
+            <span></span>Тестирование
+        </button>
     </div>
 
     <!-- Блок с личной информацией -->
@@ -294,11 +301,6 @@
             tab2Btn.classList.add('active');
             tab1Btn.classList.remove('active');
         });
-
-        // Логика выхода
-        function logout() {
-            window.location.href = "index.html";
-        }
 
         // Логика перехода к профилю и тестированию
         function goToProfile() {
