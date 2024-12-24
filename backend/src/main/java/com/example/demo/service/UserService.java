@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.UserRegistrationDto;
 import com.example.demo.entity.RoleEntity;
 import com.example.demo.entity.UserEntity;
 import com.example.demo.repository.RoleRepository;
@@ -21,21 +22,22 @@ import java.util.Optional;
 public class UserService implements UserDetailsService {
     @PersistenceContext
     private EntityManager em;
-    @Autowired
-    UserRepository userRepository;
+    //@Autowired
+    //UserRepository userRepository;
     @Autowired
     RoleRepository roleRepository;
+    //@Autowired
+    //BCryptPasswordEncoder bCryptPasswordEncoder;
     @Autowired
-    BCryptPasswordEncoder bCryptPasswordEncoder;
+    private UserRepository userRepository;
+
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserEntity user = userRepository.findByUsername(username)
-            .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-
-        if (user == null) {
-            throw new UsernameNotFoundException("User not found");
-        }
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
         return user;
     }
@@ -49,17 +51,16 @@ public class UserService implements UserDetailsService {
         return userRepository.findAll();
     }
 
-    public boolean saveUser(UserEntity user) {
-        UserEntity userFromDB = userRepository.findByUsername(user.getUsername())
-            .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-
-        if (userFromDB != null) {
-            return false;
+    public boolean saveUser(UserRegistrationDto userDto) {
+        if (userRepository.findByUsername(userDto.getUsername()).isPresent()) {
+            return false; // Пользователь с таким именем уже существует
         }
-
-        user.setRoles(Collections.singleton(new RoleEntity(1L, "ROLE_USER")));
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        userRepository.save(user);
+    
+        UserEntity newUser = new UserEntity();
+        newUser.setUsername(userDto.getUsername());
+        newUser.setEmail(userDto.getEmail());
+        newUser.setPassword(bCryptPasswordEncoder.encode(userDto.getPassword())); // Хеширование пароля
+        userRepository.save(newUser);
         return true;
     }
 
@@ -72,29 +73,26 @@ public class UserService implements UserDetailsService {
     }
 
     public List<UserEntity> usergtList(Long idMin) {
-        return em.createQuery("SELECT u FROM User u WHERE u.id > :paramId", UserEntity.class)
+        return em.createQuery("SELECT u FROM users u WHERE u.id > :paramId", UserEntity.class)
                 .setParameter("paramId", idMin).getResultList();
     }
+
     public void registerUser(String username, String email, String password) {
-        // Check if user already exists (optional)
         if (userRepository.findByUsername(username).isPresent()) {
             throw new IllegalArgumentException("Username is already taken");
         }
 
-        // Create and save new user
         UserEntity newUser = new UserEntity();
         newUser.setUsername(username);
         newUser.setEmail(email);
-        newUser.setPassword(bCryptPasswordEncoder.encode(password)); // Encrypt the password
+        newUser.setPassword(bCryptPasswordEncoder.encode(password));
         userRepository.save(newUser);
     }
 
     public void validateUser(String username, String password) {
-        // Fetch user by username
         UserEntity user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid username or password"));
+            .orElseThrow(() -> new IllegalArgumentException("Invalid username or password"));
 
-        // Validate password
         if (!bCryptPasswordEncoder.matches(password, user.getPassword())) {
             throw new IllegalArgumentException("Invalid username or password");
         }

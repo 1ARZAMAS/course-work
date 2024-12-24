@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class MainController {
 
-    @GetMapping("/")  
+    @GetMapping("/")  // Маппинг для кастомной страницы логина
     public String index() {
-        return "index.html";  
+        return "index"; // Указываем имя шаблона login.html
     }
 }

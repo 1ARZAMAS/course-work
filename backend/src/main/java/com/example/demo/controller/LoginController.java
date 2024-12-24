@@ -8,6 +8,6 @@ public class LoginController {
 
     @GetMapping("/login")  // Маппинг для кастомной страницы логина
     public String login() {
-        return "login.html"; // Указываем имя шаблона login.html
+        return "login"; // Указываем имя шаблона login.html
     }
 }

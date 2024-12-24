@@ -3,10 +3,7 @@ package com.example.demo.config;
 import com.example.demo.service.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.Customizer;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -35,30 +32,27 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            // CSRF configuration (you can disable it as needed)
-            .csrf().disable()
-
-            // Updated method to configure authorization
+            .csrf(csrf -> csrf
+                .ignoringRequestMatchers("/resources/", "/static/") // Исключите статические ресурсы
+            )
             .authorizeHttpRequests(authz -> authz
                 .requestMatchers("/index.html", "/resources/**", "/").permitAll()  // Permit access to index and public resources
                 .requestMatchers("/login.html", "/register.html").not().fullyAuthenticated()  // Allow unauthenticated users to access login and register
                 .anyRequest().authenticated()  // Require authentication for all other requests
             )
             .formLogin(form -> form
-                .loginPage("/login")                  // Custom login page
-                .defaultSuccessUrl("/home_page", true)    // Redirect to index after login
-                .permitAll()                          // Allow anyone to access the login page
+                .loginPage("/login")
+                .defaultSuccessUrl("/home_page", true)
+                .permitAll()
+                .successHandler((request, response, authentication) -> {
+                    response.sendRedirect("/home_page"); // Перенаправление только после успешного входа
+                })
             )
             .logout(logout -> logout
-                .logoutSuccessUrl("/index")           // Redirect to index after logout
-                .permitAll()                          // Allow anyone to access the logout
+                .logoutSuccessUrl("/index.html") // Перенаправление после выхода
+                .permitAll()
             );
 
         return http.build();
-    }
-
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
-        return authConfig.getAuthenticationManager();
     }
 }
